@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Redmine server
+  config.vm.define "redmine" do |redmine|
+    redmine.vm.box = "centos/7"
+    redmine.vm.network "private_network", ip: "192.168.33.110"
+    redmine.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+  end
+
+  # MariaDB Galera cluster
+  config.vm.define "db01" do |db01|
+    db01.vm.box = "centos/7"
+    db01.vm.network "private_network", ip: "192.168.33.111"
+    db01.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+  end
+  config.vm.define "db02" do |db02|
+    db02.vm.box = "centos/7"
+    db02.vm.network "private_network", ip: "192.168.33.112"
+    db02.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+  end
+  config.vm.define "db02" do |db03|
+    db03.vm.box = "centos/7"
+    db03.vm.network "private_network", ip: "192.168.33.113"
+    db03.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+  end
+
+  # NGINX proxy
+  config.vm.define "prx01" do |prx01|
+    prx01.vm.box = "centos/7"
+    prx01.vm.network "private_network", ip: "192.168.33.114"
+    prx01.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+  end
+end
