@@ -1,0 +1,14 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Redmine all-in-one server
+  config.vm.define "redmine" do |redmine|
+    redmine.vm.box = "centos/7"
+    redmine.vm.network "private_network", ip: "192.168.33.101"
+    redmine.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+  end
+end
