@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Graylog server
+  config.vm.define "graylog" do |graylog|
+    graylog.vm.box = "ubuntu/xenial64"
+    graylog.vm.network "private_network", ip: "192.168.33.102"
+    graylog.vm.provider "virtualbox" do |vb|
+      vb.memory = 6144
+      vb.cpus = 2
+    end
+  end
+
+  config.vm.define "mail" do |mail|
+    mail.vm.box = "ubuntu/xenial64"
+    mail.vm.network "private_network", ip: "192.168.33.103"
+    mail.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+  end
+end

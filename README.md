@@ -1,6 +1,14 @@
 # ccdc-vagrant
 Vagrantfiles used for CCDC preparation
 
+## `graylog-test`
+A simple test of Graylog with a single Graylog server and a Postfix server
+
+| VM Name | OS           | Role    | IP              |
+|---------|--------------|---------|-----------------|
+| graylog | Ubuntu 16.04 | Graylog | 192.168.33.102  |
+| mail    | Ubuntu 16.04 | Postfix | 192.168.33.103  |
+
 ## `redmine-small`
 A single-VM installation of Redmine
 
