@@ -1,4 +1,4 @@
-#!/usr/bin/env bash#!/usr/bin/env bash
+#!/usr/bin/env bash
 #------------------------------------------------------------------------------
 # NAME
 #	graylog-install - a Graylog Server installation script
