@@ -1,0 +1,4 @@
+cluster.name: graylog
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+action.auto_create_index: false
