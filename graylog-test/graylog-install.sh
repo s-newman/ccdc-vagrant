@@ -18,7 +18,7 @@
 #   PREREQUISITES
 ###
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install \
+sudo apt-get install -y \
     apt-transport-https \
     openjdk-8-jre-headless \
     uuid-runtime \
@@ -45,7 +45,7 @@ sudo systemctl restart mongod.service
 ###
 # Add Elastic repository
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main" | sudo tee /etc/apt/source.list.d/elastic-6.x.list
+echo "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-6.x.list
 sudo apt-get update
 
 # Install Elasticsearch
