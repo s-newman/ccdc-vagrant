@@ -54,7 +54,7 @@ sudo apt-get install -y elasticsearch-oss
 # Configure Elasticsearch
 sudo mv /tmp/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 sudo chown root:root /etc/elasticsearch/elasticsearch.yml
-sudo chmod 440 /etc/elasticsearch/elasticsearch.yml
+sudo chmod 660 /etc/elasticsearch/elasticsearch.yml
 
 # Enable the Elasticsearch service
 sudo systemctl daemon-reload
@@ -75,7 +75,7 @@ sudo apt-get install -y graylog-server
 
 # Configure Graylog
 sudo mv /tmp/server.conf /etc/graylog/server/server.conf
-sudo chown root:root /etc/graylog/server/server.conf
+sudo chown root:elasticsearch /etc/graylog/server/server.conf
 sudo chmod 644 /etc/graylog/server/server.conf
 
 # Enable the Graylog service
