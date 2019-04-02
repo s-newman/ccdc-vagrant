@@ -25,16 +25,27 @@ sudo apt-get install -y \
     pwgen
 
 ###
-#   MONGODB
+#   Packages
 ###
-# Add MongoDB repository
+# MongoDB repository
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+
+# Elastic repository
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-6.x.list
+
+# Graylog repository
+wget https://packages.graylog2.org/repo/packages/graylog-3.0-repository_latest.deb
+sudo dpkg -i graylog-3.0-repository_latest.deb
+
+# Install packages
 sudo apt-get update
+sudo apt-get install -y mongodb-org elasticsearch-oss graylog-server
 
-# Install MongoDB
-sudo apt-get install -y mongodb-org
-
+###
+#   MONGODB
+###
 # Enable the MongoDB service
 sudo systemctl daemon-reload
 sudo systemctl enable mongod.service
@@ -43,15 +54,7 @@ sudo systemctl restart mongod.service
 ###
 #   ELASTICSEARCH
 ###
-# Add Elastic repository
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-6.x.list
-sudo apt-get update
-
-# Install Elasticsearch
-sudo apt-get install -y elasticsearch-oss
-
-# Configure Elasticsearch
+## Configure Elasticsearch
 cat << EOF > elasticsearch.yml
 cluster.name: graylog
 path.data: /var/lib/elasticsearch
@@ -71,14 +74,6 @@ sudo systemctl restart elasticsearch.service
 #   GRAYLOG
 ###
 # Default creds: admin:rockyou.txt-SUCKS!
-# Add Graylog repository
-wget https://packages.graylog2.org/repo/packages/graylog-3.0-repository_latest.deb
-sudo dpkg -i graylog-3.0-repository_latest.deb
-sudo apt-get update
-
-# Install Graylog
-sudo apt-get install -y graylog-server
-
 # Configure Graylog
 cat << EOF > server.conf
 is_master = true
@@ -120,7 +115,7 @@ mongodb_threads_allowed_to_block_multiplier = 5
 proxied_requests_thread_pool_size = 32
 EOF
 sudo mv server.conf /etc/graylog/server/server.conf
-sudo chown root:elasticsearch /etc/graylog/server/server.conf
+sudo chown root:root /etc/graylog/server/server.conf
 sudo chmod 644 /etc/graylog/server/server.conf
 
 # Enable the Graylog service
