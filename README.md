@@ -1,5 +1,14 @@
-# ccdc-vagrant
-Vagrantfiles used for CCDC preparation
+# Vagrantfiles
+Vagrantfiles and scripts used to set up and test various applications.
+
+## `bind`
+An example of a single-master, dual-slave BIND DNS setup.
+
+| VM Name  | OS           | Role              | IP             |
+|----------|--------------|-------------------|----------------|
+| ns01     | Ubuntu 18.04 | Master nameserver | 192.168.33.105 |
+| ns02     | Ubuntu 18.04 | Slave nameserver  | 192.168.33.106 |
+| ns03     | Ubuntu 18.04 | Slave nameserver  | 192.168.33.107 |
 
 ## `devstack`
 An environment to test out OpenStack using the DevStack scripts.
