@@ -61,6 +61,8 @@ Vagrant.configure("2") do |config|
       virtualbox__intnet: "management", mac: "080027AA0001"
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "storage", mac: "080027AAFF01"
+    config.vm.network "private_network", auto_config: false,
+      virtualbox__intnet: "storage_backend", mac: "080027AABB01"
     
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
@@ -75,6 +77,8 @@ Vagrant.configure("2") do |config|
       virtualbox__intnet: "management", mac: "080027AA0002"
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "storage", mac: "080027AAFF02"
+    config.vm.network "private_network", auto_config: false,
+      virtualbox__intnet: "storage_backend", mac: "080027AABB02"
     
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
@@ -89,6 +93,8 @@ Vagrant.configure("2") do |config|
       virtualbox__intnet: "management", mac: "080027AA0003"
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "storage", mac: "080027AAFF03"
+    config.vm.network "private_network", auto_config: false,
+      virtualbox__intnet: "storage_backend", mac: "080027AABB03"
     
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
