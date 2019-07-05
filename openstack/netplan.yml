@@ -1,32 +1,24 @@
-#network:
-#  version: 2
-#  ethernets:
-#      enp0s3:
-#          dhcp4: true
-#          match:
-#              macaddress: 02:2b:53:00:6c:0a
-#          set-name: enp0s3
-#
-{% if ansible_hostname.startswith('mgmt') -%}
+{% if inventory_hostname.startswith('mgmt') %}
   {% set type = '00' %}
   {% set addr = 200 %}
-{% elif ansible_hostname.startswith('stor') -%}
+{% elif inventory_hostname.startswith('stor') %}
   {% set type = 'aa' %}
   {% set addr = 100 %}
-{% else -%}
+{% else %}
   {% set type = 'bb' %}
   {% set addr = 0 %}
-{%- endif %}
-{% if ansible_hostname.endswith('01') -%}
+{% endif %}
+{% if inventory_hostname.endswith('01') %}
   {% set host = '01' %}
   {% set addr = addr + 1 %}
-{% elif ansible_hostname.endswith('02') -%}
+{% elif inventory_hostname.endswith('02') %}
   {% set host = '02' %}
   {% set addr = addr + 2 %}
-{% else -%}
+{% else %}
   {% set host = '03' %}
   {% set addr = addr + 3 %}
-{%- endif %}
+{% endif %}
+# {{ ansible_managed }}
 network:
   version: 2
   ethernets:
@@ -44,22 +36,22 @@ network:
       match:
         macaddress: '08:00:27:{{ type }}:ff:{{ host }}'
       set-name: tgeth0
-{% if ansible_hostname.startswith('stor') -%}
+{% if inventory_hostname.startswith('stor') %}
     tgeth1:
       match:
         macaddress: '08:00:27:aa:bb:{{ host }}'
       set-name: tgeth1
-{%- endif %}
+{% endif %}
   bonds:
     bond-mgmt:
       interfaces: [ geth0 ]
     bond-storage:
       interfaces: [ tgeth0 ]
-{% if ansible_hostname.startswith('stor') -%}
+{% if inventory_hostname.startswith('stor') %}
     bond-cluster:
       interfaces: [ tgeth1 ]
-      addresses: [ '10.0.8.{{ host }}/24' ]
-{%- endif %}
+      addresses: [ '10.0.8.{{ addr }}/24' ]
+{% endif %}
   vlans:
     vlan.9:
       id: 9
@@ -73,16 +65,16 @@ network:
   bridges:
     br-mgmt:
       interfaces: [ vlan.10 ]
-      addresses: [ '10.0.10.{{ host }}/24' ]
-{% if not ansible_hostname.startswith('mgmt') -%}
+      addresses: [ '10.0.10.{{ addr }}/24' ]
+{% if not inventory_hostname.startswith('mgmt') %}
     br-storage:
       interfaces: [ vlan.9 ]
-      addresses: [ '10.0.9.{{ host }}/24' ]
-{%- endif %}
-{% if ansible_hostname.startswith('nova') -%}
+      addresses: [ '10.0.9.{{ addr }}/24' ]
+{% endif %}
+{% if inventory_hostname.startswith('nova') %}
     br-vxlan:
       interfaces: [ vlan.30 ]
-      addresses: [ '10.0.30.{{ host }}/24' ]
-{%- endif %}
+      addresses: [ '10.0.30.{{ addr }}/24' ]
+{% endif %}
     br-vlan:
       interfaces: [ bond-mgmt ]
