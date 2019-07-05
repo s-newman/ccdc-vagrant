@@ -55,7 +55,7 @@
         - 8021q
     
     - name: Restart NTP client
-      systemctl:
+      systemd:
         state: restarted
         name: chrony
         enabled: yes
