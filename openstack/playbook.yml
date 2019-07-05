@@ -1,6 +1,23 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    apt_packages:
+      - bridge-utils
+      - debootstrap
+      - dist-upgrade
+      - ifenslave
+      - ifenslave-2.6
+      - lsof
+      - lvm2
+      - chrony
+      - openssh-server
+      - sudo
+      - tcpdump
+      - vlan
+      - python
+      - 'linux-image-extra-{{ ansible_kernel }}'
+
   tasks:
     - name: Configure udev rules
       template:
@@ -20,6 +37,30 @@
         dest: /etc/netplan/50-cloud-init.yaml
       notify:
         - Apply netplan changes
+    
+    - name: Install packages
+      apt:
+        state: present
+        name: '{{ apt_packages }}'
+        update_cache: yes
+    
+    - name: Add kernel modules
+      lineinfile:
+        state: present
+        line: '{{ item }}'
+        create: yes
+      loop:
+        - bonding
+        - 8021q
+    
+    - name: Restart NTP client
+      systemctl:
+        state: restarted
+        name: chrony
+        enabled: yes
+    
+    - name: Reboot to apply kernel changes
+      reboot:
 
   handlers:
     - name: Apply netplan changes
