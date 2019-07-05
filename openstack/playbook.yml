@@ -15,7 +15,6 @@
       - tcpdump
       - vlan
       - python
-      - 'linux-image-extra-{{ ansible_kernel }}'
 
   tasks:
     - name: Configure udev rules
