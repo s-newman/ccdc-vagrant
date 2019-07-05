@@ -47,6 +47,7 @@
     - name: Add kernel modules
       lineinfile:
         state: present
+        path: /etc/modules
         line: '{{ item }}'
         create: yes
       loop:
