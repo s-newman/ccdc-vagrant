@@ -2,6 +2,13 @@
 - hosts: all
   become: yes
   tasks:
+    - name: Configure udev rules
+      template:
+        src: ./udev.rules
+        dest: /etc/udev/rules.d/70-persistent-net.rules
+      notify:
+        - Apply udev changes
+
     - name: Disable cloud init network config
       copy:
         src: ./cloud-init.yml
@@ -17,3 +24,6 @@
   handlers:
     - name: Apply netplan changes
       command: netplan apply
+    
+    - name: Apply udev changes
+      shell: udevadm control --reload-rules && udevadm trigger

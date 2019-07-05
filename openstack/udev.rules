@@ -1,0 +1,21 @@
+{% if inventory_hostname.startswith('mgmt') %}
+  {% set type = '00' %}
+{% elif inventory_hostname.startswith('stor') %}
+  {% set type = 'aa' %}
+{% else %}
+  {% set type = 'bb' %}
+{% endif %}
+{% if inventory_hostname.endswith('01') %}
+  {% set host = '01' %}
+{% elif inventory_hostname.endswith('02') %}
+  {% set host = '02' %}
+{% else %}
+  {% set host = '03' %}
+{% endif %}
+# {{ ansible_managed }}
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="02:2b:53:00:6c:0a", NAME="enp0s3"
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:{{ type }}:00:{{ host }}", NAME="geth0"
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:{{ type }}:ff:{{ host }}", NAME="tgeth0"
+{% if inventory_hostname.startswith('stor') %}
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:aa:bb:{{ host }}", NAME="tgeth1"
+{% endif %}
