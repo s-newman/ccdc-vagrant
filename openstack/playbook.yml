@@ -2,5 +2,18 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Test connection
-      ping:
+    - name: Disable cloud init network config
+      copy:
+        src: ./cloud-init.yml
+        dest: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+
+    - name: Configure netplan
+      template:
+        src: ./netplan.yml
+        dest: /etc/netplan/50-cloud-init.yaml
+      notify:
+        - Apply netplan changes
+
+handlers:
+  - name: Apply netplan changes
+    command: netplan apply
