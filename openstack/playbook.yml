@@ -40,6 +40,7 @@
       apt:
         state: present
         name: '{{ apt_packages }}'
+        force_apt_get: yes
         update_cache: yes
     
     - name: Add kernel modules
