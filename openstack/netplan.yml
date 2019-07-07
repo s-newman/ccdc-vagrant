@@ -20,30 +20,43 @@ network:
       dhcp4: true
     geth0:
       dhcp4: false
-{% if not inventory_hostname.startswith('stor') %}
-    geth1:
-      dhcp4: false
-    geth2:
-      dhcp4: false
-{% endif %}
     tgeth0:
       dhcp4: false
 {% if inventory_hostname.startswith('stor') %}
     tgeth1:
       dhcp4: false
+{% endif %}
+  bonds:
+    bond-mgmt:
+      interfaces: [ geth0 ]
+    bond-storage:
+      interfaces: [ tgeth0 ]
+{% if inventory_hostname.startswith('stor') %}
+    bond-cluster:
+      interfaces: [ tgeth1 ]
       addresses: [ '10.0.8.{{ addr }}/24' ]
 {% endif %}
+  vlans:
+    vlan.9:
+      id: 9
+      link: bond-storage
+    vlan.10:
+      id: 10
+      link: bond-mgmt
+    vlan.30:
+      id: 30
+      link: bond-mgmt
   bridges:
     br-mgmt:
-      interfaces: [ geth0 ]
+      interfaces: [ vlan.10 ]
       addresses: [ '10.0.10.{{ addr }}/24' ]
     br-storage:
-      interfaces: [ tgeth0 ]
+      interfaces: [ vlan.9 ]
       addresses: [ '10.0.9.{{ addr }}/24' ]
-{% if not inventory_hostname.startswith('stor') %}
+{% if inventory_hostname.startswith('nova') %}
     br-vxlan:
-      interfaces: [ geth1 ]
+      interfaces: [ vlan.30 ]
       addresses: [ '10.0.30.{{ addr }}/24' ]
 {% endif %}
     br-vlan:
-      interfaces: [ geth2 ]
+      interfaces: [ bond-mgmt ]
