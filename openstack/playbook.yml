@@ -33,8 +33,14 @@
       template:
         src: ./netplan.yml
         dest: /etc/netplan/50-cloud-init.yaml
-      notify:
-        - Apply netplan changes
+    
+    - name: Configure post-up script
+      copy:
+        src: ./50promisc.sh
+        dest: /etc/networkd-dispatcher/routable.d/50promisc
+        owner: root
+        group: root
+        mode: 774
     
     - name: Install packages
       apt:
@@ -61,7 +67,7 @@
     
     - name: Reboot to apply kernel changes
       reboot:
-
+    
   handlers:
     - name: Apply netplan changes
       command: netplan apply
