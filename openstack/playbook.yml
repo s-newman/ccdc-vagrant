@@ -34,13 +34,20 @@
         src: ./netplan.yml
         dest: /etc/netplan/50-cloud-init.yaml
     
+    - name: Create post-up script location
+      file:
+        state: directory
+        path: /etc/networkd-dispatcher/configured.d
+        owner: root
+        group: root
+    
     - name: Configure post-up script
       copy:
         src: ./50promisc.sh
-        dest: /etc/networkd-dispatcher/routable.d/50promisc
+        dest: /etc/networkd-dispatcher/configured.d/50promisc
         owner: root
         group: root
-        mode: 774
+        mode: 0774
     
     - name: Install packages
       apt:
