@@ -72,6 +72,15 @@
         name: chrony
         enabled: yes
     
+    - name: Set hostname
+      hostname:
+        name: '{{ inventory_hostname }}'
+    
+    - name: Configure ghetto DNS
+      template:
+        src: ./hosts
+        dest: /etc/hosts
+    
     - name: Reboot to apply kernel changes
       reboot:
     
