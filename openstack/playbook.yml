@@ -75,11 +75,27 @@
     - name: Set hostname
       hostname:
         name: '{{ inventory_hostname }}'
-    
+
     - name: Configure ghetto DNS
       template:
         src: ./hosts
         dest: /etc/hosts
+
+    - name: Add SSH key
+      copy:
+        src: ~/.vagrant.d/insecure_private_key
+        dest: /home/vagrant/.ssh/id_rsa
+        owner: vagrant
+        group: vagrant
+        mode: 0600
+    
+    - name: Add SSH pubkey
+      copy:
+        src: /home/vagrant/.ssh/authorized_keys
+        dest: /home/vagrant/.ssh/id_rsa.pub
+        remote_src: yes
+        owner: vagrant
+        group: vagrant
     
     - name: Reboot to apply kernel changes
       reboot:
