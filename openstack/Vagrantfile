@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 2048
       vb.cpus = 2
     end
@@ -36,6 +37,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 2048
       vb.cpus = 2
     end
@@ -51,6 +53,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 2048
       vb.cpus = 2
     end
@@ -70,6 +73,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.customize ["createmedium", "disk", "--filename", "stor01d1.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor01d2.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor01d3.vmdk", "--format", "VMDK", "--size", 1024 * 10]
@@ -94,13 +98,13 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.customize ["createmedium", "disk", "--filename", "stor02d1.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor02d2.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor02d3.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "2", "--type", "hdd", "--medium", "stor02d1.vmdk"]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "3", "--type", "hdd", "--medium", "stor02d2.vmdk"]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "4", "--type", "hdd", "--medium", "stor02d3.vmdk"]
-      vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
       vb.memory = 2048
       vb.cpus = 2
     end
@@ -118,13 +122,13 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.customize ["createmedium", "disk", "--filename", "stor03d1.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor03d2.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["createmedium", "disk", "--filename", "stor03d3.vmdk", "--format", "VMDK", "--size", 1024 * 10]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "2", "--type", "hdd", "--medium", "stor03d1.vmdk"]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "3", "--type", "hdd", "--medium", "stor03d2.vmdk"]
       vb.customize ["storageattach", :id, "--storagectl", "SCSI", "--port", "4", "--type", "hdd", "--medium", "stor03d3.vmdk"]
-      vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
       vb.memory = 2048
       vb.cpus = 2
     end
@@ -142,6 +146,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 6144
       vb.cpus = 4
     end
@@ -158,6 +163,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 6144
       vb.cpus = 4
     end
@@ -174,6 +180,7 @@ Vagrant.configure("2") do |config|
     # Configure Resourcees
     config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
       vb.memory = 6144
       vb.cpus = 4
     end
