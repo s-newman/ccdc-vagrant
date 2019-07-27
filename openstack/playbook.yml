@@ -106,3 +106,35 @@
     
     - name: Apply udev changes
       shell: udevadm control --reload-rules && udevadm trigger
+
+- hosts: mgmt01
+  become: yes
+  tasks:
+    - name: Create ceph directory
+      file:
+        state: directory
+        path: /home/vagrant/ritsec-ceph
+        owner: vagrant
+        group: vagrant
+  
+    - name: Set up ceph
+      script: ./ceph-setup.sh
+      args:
+        creates: /home/vagrant/ritsec-ceph/ceph.conf
+        chdir: /home/vagrant/ritsec-ceph
+      become_user: vagrant
+
+    - name: Clone openstack-ansible
+      git:
+        repo: https://github.com/openstack/openstack-ansible.git
+        dest: /opt/openstack-ansible
+        version: 19.0.0
+
+    - name: Prepare controller host
+      command: /opt/openstack-ansible/scripts/bootstrap-ansible.sh
+
+    # TODO: improve this
+    - name: Extract custom configs
+      unarchive:
+        src: ~/configs.tar.gz
+        dest: /opt/openstack-ansible/etc/openstack_deploy
