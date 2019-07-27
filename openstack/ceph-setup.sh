@@ -31,7 +31,7 @@ ceph-deploy install mgmt01 mgmt02 mgmt03
 ceph-deploy mon create-initial
 ceph-deploy admin mgmt01 mgmt02 mgmt03
 ceph-deploy mgr create mgmt01 mgmt02 mgmt03
-ceph-deploy install stor01 
+ceph-deploy install stor01 stor02 stor03
 
 # oh ess DICK
 ceph-deploy osd create --data /dev/sdc stor01
@@ -47,3 +47,7 @@ ceph-deploy osd create --data /dev/sde stor03
 # Clients
 ceph-deploy install nova01 nova02 nova03
 ceph-deploy admin nova01 nova02 nova03
+
+# RBD
+sudo ceph osd pool create main 16
+sudo rbd pool init main
