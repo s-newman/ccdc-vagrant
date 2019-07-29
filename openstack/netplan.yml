@@ -1,16 +1,22 @@
 {% if inventory_hostname.startswith('mgmt') %}
   {% set addr = 200 %}
+  {% set type = '00' %}
 {% elif inventory_hostname.startswith('stor') %}
   {% set addr = 100 %}
+  {% set type = 'aa' %}
 {% else %}
   {% set addr = 0 %}
+  {% set type = 'bb' %}
 {% endif %}
 {% if inventory_hostname.endswith('01') %}
   {% set addr = addr + 1 %}
+  {% set host = '01' %}
 {% elif inventory_hostname.endswith('02') %}
   {% set addr = addr + 2 %}
+  {% set host = '02' %}
 {% else %}
   {% set addr = addr + 3 %}
+  {% set host = '03' %}
 {% endif %}
 # {{ ansible_managed }}
 network:
@@ -20,11 +26,17 @@ network:
       dhcp4: true
     geth0:
       dhcp4: false
+      match:
+        macaddress: '08:00:27:{{ type }}:00:{{ host }}'
     tgeth0:
       dhcp4: false
+      match:
+        macaddress: '08:00:27:{{ type }}:ff:{{ host }}'
 {% if inventory_hostname.startswith('stor') %}
     tgeth1:
       dhcp4: false
+      match:
+        macaddress: '08:00:27:{{ type }}:bb:{{ host }}'
 {% endif %}
   bonds:
     bond-mgmt:
