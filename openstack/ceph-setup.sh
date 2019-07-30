@@ -49,5 +49,24 @@ ceph-deploy install nova01 nova02 nova03
 ceph-deploy admin nova01 nova02 nova03
 
 # RBD
-sudo ceph osd pool create main 16
-sudo rbd pool init main
+sudo ceph osd pool create cinder-ssd 16
+sudo rbd pool init cinder-ssd
+sudo ceph osd pool create cinder-hdd 16
+sudo rbd pool init cinder-hdd
+sudo ceph osd pool create glance-ssd 16
+sudo rbd pool init glance-ssd
+sudo ceph osd pool create glance-hdd 16
+sudo rbd pool init glance-hdd
+sudo ceph osd pool create gnocchi-metrics-hdd 16
+sudo rbd pool init gnocchi-metrics-hdd
+
+# Users
+sudo ceph auth get-or-create client.cinder-nova \
+  mon 'profile rbd' \
+  osd 'profile rbd pool=cinder-ssd, profile rbd pool=cinder-hdd'
+sudo ceph auth get-or-create client.glance \
+  mon 'profile rbd' \
+  osd 'profile rbd pool=glance-ssd, profile rbd pool=glance-hdd'
+sudo ceph auth get-or-create client.gnocchi \
+  mon 'profile rbd' \
+  osd 'profile rbd pool=gnocchi-metrids-hdd'
