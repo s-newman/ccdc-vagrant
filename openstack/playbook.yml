@@ -159,31 +159,44 @@
 - hosts: mgmt01
   become: yes
   tasks:
-    - name: Create ceph directory
-      file:
-        state: directory
-        path: /home/vagrant/ritsec-ceph
-        owner: vagrant
-        group: vagrant
-  
     - name: Set up ceph
       script: ./ceph-setup.sh
       args:
-        creates: /home/vagrant/ritsec-ceph/ceph.conf
-        chdir: /home/vagrant/ritsec-ceph
-      become_user: vagrant
+        creates: /home/ops/ritsec-ceph/ceph.conf
+        chdir: /home/ops
+      become_user: ops
 
     - name: Clone openstack-ansible
       git:
-        repo: https://github.com/openstack/openstack-ansible.git
+        repo: https://github.com/ritsec/openstack-ansible.git
         dest: /opt/openstack-ansible
-        version: 19.0.0
+
+    - name: Link configuration directory
+      file:
+        state: link
+        src: /opt/openstack-ansible/etc/openstack_deploy
+        path: /etc/openstack_deploy
+
+    - name: Delete inventory files (1)
+      command: rm /etc/openstack_deploy/openstack_hostnames_ips.yml
+
+    - name: Delete inventory files (2)
+      command: rm /etc/openstack_deploy/openstack_inventory.json
+
+    - name: Delete inventory files (3)
+      command: rm -rf /etc/openstack_deploy/ansible_facts/*
+
+    - name: Remove extra Nova nodes
+      command: sed -ie '/nova04:/,+17d' /etc/openstack_deploy/openstack_user_config.yml
+
+    - name: Download secrets file
+      get_url:
+        url: 'https://raw.githubusercontent.com/openstack/openstack-ansible/master/etc/openstack_deploy/user_secrets.yml'
+        dest: /etc/openstack_deploy/user_secrets.yml
+        mode: 0400
 
     - name: Prepare controller host
       command: /opt/openstack-ansible/scripts/bootstrap-ansible.sh
 
-    # TODO: improve this
-    - name: Extract custom configs
-      unarchive:
-        src: ~/configs.tar.gz
-        dest: /opt/openstack-ansible/etc/openstack_deploy
+    - name: Generate secrets
+      command: /opt/openstack-ansible/scripts/pw-token-gen.py --file /etc/openstack_deploy/user_secrets.yml
