@@ -25,6 +25,22 @@ A simple test of Graylog with a single Graylog server and a Postfix server
 | graylog | Ubuntu 16.04 | Graylog | 192.168.33.102 |
 | mail    | Ubuntu 16.04 | Postfix | 192.168.33.103 |
 
+## `openstack`
+A testing environment modeled to closely replicate the RITSEC Cloud
+infrastructure. For more information, see the [README](./openstack/README.md)
+
+| VM Name | OS           | Role       |
+|---------|--------------|------------|
+| mgmt01  | Ubuntu 18.04 | Controller |
+| mgmt02  | Ubuntu 18.04 | Controller |
+| mgmt03  | Ubuntu 18.04 | Controller |
+| nova01  | Ubuntu 18.04 | Compute    |
+| nova02  | Ubuntu 18.04 | Compute    |
+| nova03  | Ubuntu 18.04 | Compute    |
+| stor01  | Ubuntu 18.04 | Ceph OSD   |
+| stor02  | Ubuntu 18.04 | Ceph OSD   |
+| stor03  | Ubuntu 18.04 | Ceph OSD   |
+
 ## `redmine-db-cluster`
 A multi-VM installation of Redmine with MariaDB clustering and an NGINX proxy
 
