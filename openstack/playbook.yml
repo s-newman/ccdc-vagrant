@@ -81,21 +81,70 @@
         src: ./hosts
         dest: /etc/hosts
 
-    - name: Add SSH key
+    - name: Add ops user
+      user:
+        state: present
+        name: ops
+        shell: /bin/bash
+
+    - name: Give ops user passwordless sudo
+      copy:
+        src: ops-sudoer
+        dest: /etc/sudoers.d/ops
+        owner: root
+        group: root
+        mode: 0440
+
+    - name: Create SSH directory
+      file:
+        state: directory
+        path: /home/ops/.ssh
+
+    - name: Add SSH key (ops)
       copy:
         src: ~/.vagrant.d/insecure_private_key
-        dest: /home/vagrant/.ssh/id_rsa
-        owner: vagrant
-        group: vagrant
+        dest: /home/ops/.ssh/id_rsa
+        owner: ops
+        group: ops
+        mode: 0600
+
+    - name: Add SSH key (root)
+      copy:
+        src: ~/.vagrant.d/insecure_private_key
+        dest: /root/.ssh/id_rsa
+        owner: root
+        group: root
         mode: 0600
     
-    - name: Add SSH pubkey
+    - name: Add & authorize SSH pubkey (ops)
       copy:
         src: /home/vagrant/.ssh/authorized_keys
-        dest: /home/vagrant/.ssh/id_rsa.pub
+        dest: '{{ item }}'
         remote_src: yes
-        owner: vagrant
-        group: vagrant
+        owner: ops
+        group: ops
+      loop:
+        - /home/ops/.ssh/id_rsa.pub
+        - /home/ops/.ssh/authorized_keys
+
+    - name: Add & authorize SSH pubkey (root)
+      copy:
+        src: /home/vagrant/.ssh/authorized_keys
+        dest: '{{ item }}'
+        remote_src: yes
+        owner: root
+        group: root
+      loop:
+        - /root/.ssh/id_rsa.pub
+        - /root/.ssh/authorized_keys
+
+    - name: Configure SSH
+      copy:
+        src: ./config
+        dest: /home/ops/.ssh/config
+        owner: ops
+        group: ops
+        mode: 0600
     
     - name: Reboot to apply kernel changes
       reboot:
