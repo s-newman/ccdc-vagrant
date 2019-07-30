@@ -24,6 +24,13 @@ network:
   ethernets:
     enp0s3:
       dhcp4: true
+{% if not inventory_hostname.startswith('stor') %}
+    wan0:
+      dhcp4: false
+      mtu: 1500
+      match:
+        macaddress: '08:00:27:{{ type }}:00:{{ host }}'
+{% endif %}
     geth0:
       dhcp4: false
       mtu: 1600
@@ -55,6 +62,12 @@ network:
       mtu: 9000
 {% endif %}
   vlans:
+{% if not inventory_hostname.startswith('stor') %}
+    vlan.5:
+      id: 5
+      link: wan0
+      mtu: 1500
+{% endif %}
     vlan.9:
       id: 9
       link: bond-storage
@@ -84,3 +97,9 @@ network:
 {% endif %}
     br-vlan:
       interfaces: [ bond-mgmt ]
+      mtu: 1600
+{% if not inventory_hostname.startswith('stor') %}
+    br-wan:
+      interfaces: [ vlan.5 ]
+      mtu: 1600
+{% endif %}

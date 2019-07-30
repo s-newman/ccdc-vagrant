@@ -18,4 +18,6 @@ SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:{{ type
 SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:{{ type }}:ff:{{ host }}", NAME="tgeth0"
 {% if inventory_hostname.startswith('stor') %}
 SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:aa:bb:{{ host }}", NAME="tgeth1"
+{% else %}
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:{{ type }}:dd:{{ host }}", NAME="wan0"
 {% endif %}
