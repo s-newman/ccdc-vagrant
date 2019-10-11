@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
   # Management nodes
   config.vm.define "mgmt01" do |config|
     config.vm.box = "ubuntu/bionic64"
+    config.disksize.size = "20GB"
     # Configure NICs
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "management", mac: "080027000001"
@@ -30,6 +31,7 @@ Vagrant.configure("2") do |config|
   end
   config.vm.define "mgmt02" do |config|
     config.vm.box = "ubuntu/bionic64"
+    config.disksize.size = "20GB"
     # Configure NICs
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "management", mac: "080027000002"
@@ -48,6 +50,7 @@ Vagrant.configure("2") do |config|
   end
   config.vm.define "mgmt03" do |config|
     config.vm.box = "ubuntu/bionic64"
+    config.disksize.size = "20GB"
     # Configure NICs
     config.vm.network "private_network", auto_config: false,
       virtualbox__intnet: "management", mac: "080027000003"
