@@ -58,3 +58,10 @@ A single-VM installation of Redmine
 | VM Name | OS       | Role    | IP             |
 |---------|----------|---------|----------------|
 | redmine | CentOS 7 | Redmine | 192.168.33.101 |
+
+## `scoringengine`
+A single-VM installation of the scoring engine
+
+| VM Name | OS           | Role           | IP             |
+|---------|--------------|----------------|----------------|
+| scoring | Ubuntu 18.04 | Scoring Engine | 192.168.33.115 |
